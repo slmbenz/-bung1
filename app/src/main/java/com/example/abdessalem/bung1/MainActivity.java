@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensorManger;
     Sensor accelerometer;
     TextView xValue, yValue, zValue;
+    ProgressBar xProgressBar, yProgressBar, zProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         xValue = (TextView) findViewById(R.id.xValue);
         yValue = (TextView) findViewById(R.id.yValue);
         zValue = (TextView) findViewById(R.id.zValue);
+
+        xProgressBar = (ProgressBar) findViewById(R.id.xProgressBar);
+        yProgressBar = (ProgressBar) findViewById(R.id.yProgressBar);
+        zProgressBar = (ProgressBar) findViewById(R.id.zProgressBar);
 
         Log.d(TAG, "onCreate: Initializing Sensor Activity");
         sensorManger = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -45,6 +51,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         xValue.setText("xValue: "+sensorEvent.values[0]);
         yValue.setText("yValue: "+sensorEvent.values[1]);
         zValue.setText("zValue: "+sensorEvent.values[2]);
+
+        float x = sensorEvent.values[0]*16.67f;
+        float y = sensorEvent.values[1]*16.67f;
+        float z = sensorEvent.values[2]*16.67f;
+        int percentX = (int) x;
+        int percentY = (int) y;
+        int percentZ = (int) z;
+
+        xProgressBar.setProgress(percentX);
+        yProgressBar.setProgress(percentY);
+        zProgressBar.setProgress(percentY);
+
     }
 
 }
